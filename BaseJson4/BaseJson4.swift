@@ -7,12 +7,20 @@
 //
 
 import Foundation
-
 extension String {
     func toObj<T: BaseJson4>(type: T.Type) -> T? {
+        if let data = self.data(using: .utf8) {
+            return data.toObj(type: type)
+        }
+        return nil
+    }
+}
+
+extension Data {
+    func toObj<T: BaseJson4>(type: T.Type) -> T? {
         do {
+            //let data = self.data(using: .utf8)
             let decoder = JSONDecoder()
-            let data = self.data(using: .utf8)
             decoder.nonConformingFloatDecodingStrategy = .convertFromString(positiveInfinity: "INF", negativeInfinity: "-INF", nan: "NaN")
             decoder.dateDecodingStrategy = .custom {
                 let container = try $0.singleValueContainer()
@@ -30,7 +38,7 @@ extension String {
                 }
                 return Date(timeIntervalSince1970: 0)
             }
-            return try decoder.decode(T.self, from: data!)
+            return try decoder.decode(T.self, from: self)
         } catch {
             print("BaseJson4 toObj failed=\(error)")
             return nil

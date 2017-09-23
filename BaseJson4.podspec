@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name		= 'BaseJson4'
-  s.version		= '1.0'
+  s.version		= '1.0.1'
   s.summary		= 'Swift4 JSON to Object Model'
   s.homepage		= 'https://github.com/kittymo/BaseJson4'
   s.license		= { :type => "MIT" }
