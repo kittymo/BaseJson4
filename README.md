@@ -44,6 +44,7 @@ if let userName = json[0]["user"]["name"].string {
 
 - iOS 9.0+ | macOS 10.10+
 - Xcode 9
+- Swift 4.0
 
 ## 如何安裝 使用CocoaPods (iOS 9+, OS X 10.10+)
 
