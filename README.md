@@ -48,6 +48,14 @@ if let userName = json[0]["user"]["name"].string {
 - Xcode 9
 - Swift 4.0
 
+## 功能特徵 Features
+
+- JSON String --> Object Model
+- Object Model --> JSON String
+- 欄位異名對映
+- 日期指定格式轉換
+- 傾印 Object 內容
+
 ## 如何安裝 使用CocoaPods (iOS 9+, OS X 10.10+)
 
 你可以使用 [CocoaPods](http://cocoapods.org/) 來安裝, 把`BaseJson4`加到你的`Podfile`:
