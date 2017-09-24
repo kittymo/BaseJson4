@@ -64,9 +64,8 @@ end
 2. 把這個檔案加進你的 xcode 專案裡
 3. 安裝完成了
 
-## 如何使用 Usage
 
-<hr>
+## 如何使用 Usage
 
 ## 1. Json to Object
 
