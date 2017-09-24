@@ -198,6 +198,7 @@ let jsonStr = user.toJson(.prettyPrinted)  // <--- 加上 prettyPrinted 參數
   "height" : 180.61000000000001
 }
 ```
+<hr>
 
 ## 3. 異名對映
 
