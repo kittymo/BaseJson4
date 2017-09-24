@@ -206,8 +206,8 @@ let jsonStr = user.toJson(.prettyPrinted)  // <--- 加上 prettyPrinted 參數
 ```json
  {"user_id":66, "user_name":"阿媛", "valid":true, "sex":"F", "style":"村菇"}
 ```
-
-User物件模型:
+欄位 user_name 我們希望改成 name, user_id 希望改成 userId<br>
+修改 User 物件模型, 加上 CodingKeys
 
 ```swift
 class User: BaseJson4 {
