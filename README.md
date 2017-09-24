@@ -44,6 +44,7 @@ if let userName = json[0]["user"]["name"].string {
 
 - iOS 9.0+ | macOS 10.10+
 - Xcode 9
+- Swift 4
 
 ## 如何安裝 Manually
 
