@@ -19,7 +19,6 @@ extension String {
 extension Data {
     func toObj<T: BaseJson4>(type: T.Type) -> T? {
         do {
-            //let data = self.data(using: .utf8)
             let decoder = JSONDecoder()
             decoder.nonConformingFloatDecodingStrategy = .convertFromString(positiveInfinity: "INF", negativeInfinity: "-INF", nan: "NaN")
             decoder.dateDecodingStrategy = .custom {
@@ -47,7 +46,7 @@ extension Data {
 }
 
 extension BaseJson4 {
-    func toJson(_ outputFormatter: JSONEncoder.OutputFormatting = .sortedKeys) -> String {
+    func toJson(_ outputFormatter: JSONEncoder.OutputFormatting = []) -> String {
         let encoder = JSONEncoder()
         encoder.outputFormatting = outputFormatter
         encoder.nonConformingFloatEncodingStrategy =  .convertToString(positiveInfinity: "INF", negativeInfinity: "-INF", nan: "NaN")

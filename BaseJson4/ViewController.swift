@@ -46,9 +46,17 @@ class ViewController: UIViewController {
         // json字串 --> Object
         if let user = jsonStr.toObj(type: User.self) {
 
+            print("user.name=\(user.name)")
+            let age = user.age
+            
+            
             let desc = user.description()
             print("物件內容 ==> \(desc)")
-
+            if let friends = user.friends {
+                for friend in friends {
+                    print("friend name=\(friend.name)")
+                }
+            }
             // Object --> json字串
             let ss = user.toJson(.prettyPrinted)
             print("輸出的 json 字串 = \(ss)")
