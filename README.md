@@ -53,7 +53,7 @@ if let userName = json[0]["user"]["name"].string {
 
 ## 如何使用 Usage
 
-#### 1. Json to Obj
+### 1. Json to Obj
 我們先用一段 json字串 來示範
 ```json
 {"id":66, "birthday":"1997-05-08", "height": 180.61, "name":"小軒", "gender":"M", "age": 29, "friends": [ {"name":"小明", "isFriend": true}, {"name":"小華", "isFriend": false, "test":1} ]}
@@ -145,7 +145,7 @@ class User: BaseJson4 {
  height=180.61
 >
 ```
-#### 2. Obj to Json
+### 2. Obj to Json
 
 再來我們要如何把一個物件輸出成 json字串呢<br>
 很容易, 同樣只要一行程式碼:
