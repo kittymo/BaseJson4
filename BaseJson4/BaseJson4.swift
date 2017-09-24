@@ -7,7 +7,13 @@
 //
 
 import Foundation
-extension String {
+
+public protocol BaseJson4: Codable {
+    static func dateFormats() -> [String: String]?
+}
+
+
+public extension String {
     func toObj<T: BaseJson4>(type: T.Type) -> T? {
         if let data = self.data(using: .utf8) {
             return data.toObj(type: type)
@@ -16,7 +22,7 @@ extension String {
     }
 }
 
-extension Data {
+public extension Data {
     func toObj<T: BaseJson4>(type: T.Type) -> T? {
         do {
             let decoder = JSONDecoder()
@@ -45,7 +51,7 @@ extension Data {
     }
 }
 
-extension BaseJson4 {
+public extension BaseJson4 {
     func toJson(_ outputFormatter: JSONEncoder.OutputFormatting = []) -> String {
         let encoder = JSONEncoder()
         encoder.outputFormatting = outputFormatter
@@ -68,11 +74,7 @@ extension BaseJson4 {
     }
 }
 
-protocol BaseJson4: Codable {
-    static func dateFormats() -> [String: String]?
-}
-
-extension BaseJson4 {
+public extension BaseJson4 {
     static func dateFormats() -> [String: String]? {
         return nil
     }
