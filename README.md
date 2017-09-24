@@ -45,16 +45,31 @@ if let userName = json[0]["user"]["name"].string {
 - iOS 9.0+ | macOS 10.10+
 - Xcode 9
 
-## 如何安裝 Manually
+### 如何安裝 使用CocoaPods (iOS 9+, OS X 10.10+)
 
-1. 下載本套件的 BaseJson4.swift 檔
+你可以使用 [CocoaPods](http://cocoapods.org/) 來安裝, 把`BaseJson4`加到你的`Podfile`:
+
+```ruby
+platform :ios, '9.0'
+use_frameworks!
+
+target 'MyApp' do
+	pod 'BaseJson4'
+end
+```
+
+### 如何安裝 手動Manually
+
+1. 下載本套件的 [BaseJson4.swift](https://github.com/kittymo/BaseJson4/blob/master/BaseJson4/BaseJson4.swift) 檔
 2. 把這個檔案加進你的 xcode 專案裡
 3. 安裝完成了
 
 ## 如何使用 Usage
 
-### ======================================================
-### 1. Json to Obj
+<hr>
+
+## 1. Json to Object
+
 我們先用一段 json字串 來示範
 ```json
 {"id":66, "birthday":"1997-05-08", "height": 180.61, "name":"小軒", "gender":"M", "age": 29, "friends": [ {"name":"小明", "isFriend": true}, {"name":"小華", "isFriend": false, "test":1} ]}
@@ -146,8 +161,9 @@ class User: BaseJson4 {
  height=180.61
 >
 ```
-### ======================================================
-### 2. Obj to Json
+<hr>
+
+## 2. Object to Json
 
 再來我們要如何把一個物件輸出成 json字串呢<br>
 很容易, 同樣只要一行程式碼:
