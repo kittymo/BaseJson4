@@ -39,6 +39,8 @@ if let userName = json[0]["user"]["name"].string {
     let age = user.age
   }
 ```
+以操作物件屬性的方式來使用資料欄位, 大大減少因為手誤打錯字造成的bug<br>
+
 
 ## 系統需求 Requirements
 
