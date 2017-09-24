@@ -198,44 +198,80 @@ let jsonStr = user.toJson(.prettyPrinted)  // <--- 加上 prettyPrinted 參數
 }
 ```
 
+## 3. 異名對映
+
+有時候 API 回傳的 JSON 欄位名字可能不符合 Swift 的命名習慣, 這時可以使用異名對映<br>
+我們用一段簡單的 JSON 字串來示範:
+
+```json
+ {"user_id":66, "user_name":"阿媛", "valid":true, "sex":"F", "style":"村菇"}
+```
+
+User物件模型:
+
+```swift
+class User: BaseJson4 {
+    var userId: Int = 0
+    var name: String? = nil
+    var gender: String? = nil
+    var valid: Bool = false
+    var style: String? = nil
+    
+    // 重設CodingKeys來進行異名對映
+    enum CodingKeys : String, CodingKey {
+        case userId = "user_id"     // 異名對映
+        case name = "user_name"     // 異名對映
+        case gender = "sex"         // 異名對映
+        case valid	// 同名
+        case style	// 同名
+    }
+}
+```
+
+但這裡有一點要特別注意的, 一旦重設了 CodingKeys 做異名對映, 就必須每個欄位都設上去, 同名的欄位也不能省略哦!
+<p>
+轉換的程式碼則仍然和之前一樣, 沒有改變:
+
+```swift
+let jsonStr = "{\"user_id\":66, \"user_name\":\"阿媛\", \"valid\":true, \"sex\":\"F\", \"style\":\"村菇\"}"
+print("輸入的 json 字串 ==> \(jsonStr)")
+        
+// json字串 --> Object
+if let user = jsonStr.toObj(type: User.self) {
+            
+	let desc = user.description()
+        print("物件內容 ==> \(desc)")
+
+	// Object --> json字串
+	let ss = user.toJson(.prettyPrinted)
+	print("輸出的 json 字串 = \(ss)")
+}
+```
+
+print印出的結果如下:
+
+```text
+輸入的 json 字串 ==> {"user_id":66, "user_name":"阿媛", "valid":true, "sex":"F", "style":"村菇"}
+
+物件內容 ==> 
+<User:
+ userId=66
+ name=Optional("阿媛")
+ gender=Optional("F")
+ valid=true
+ style=Optional("村菇")
+>
+
+輸出的 json 字串 = {
+  "sex" : "F",
+  "style" : "村菇",
+  "user_id" : 66,
+  "valid" : true,
+  "user_name" : "阿媛"
+}
+```
+
+雖然欄位名稱不同了, 但仍然可以完美的對映到物件模型裡.<br>
+<br><br>
 以上歡迎幫忙翻譯成英文版 ^_^
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
