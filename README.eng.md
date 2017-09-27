@@ -28,7 +28,7 @@ The BaseJson4 base on new protocol`Codable`could let you more easier to use`Coda
 Handle the *object property* rather than handle a string *["user"]* make Xcode to check is it correct.<br>
 
 
-With [BaseJson4]() just use User Object, *User* could be Class or Struct all you have to do this:
+With [BaseJson4](/BaseJson4/BaseJson4.swift) just use User Object, *User* could be Class or Struct all you have to do this:
 
 ```swift
   if let user = jsonStr.toObj(type: User.self) {
@@ -56,7 +56,7 @@ if let userName = json[0]["user"]["name"].string {
     print("userName= \(user.name)")
 }
 ```
-see, [BaseJson4]() more clean right?
+see, [BaseJson4](/BaseJson4/BaseJson4.swift) more clean right?
 
 
 ## Features
@@ -126,7 +126,7 @@ class Friend: BaseJson4 {
 ```
 
 
-The `String`/`Data`has been`extension`by [BaseJson4]() with method`toObj`<br>
+The `String`/`Data`has been`extension`by [BaseJson4](/BaseJson4/BaseJson4.swift) with method`toObj`<br>
 
 Source of Json data types could be`String`or`Data`you can use like this code follow:
 
