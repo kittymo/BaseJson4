@@ -6,16 +6,16 @@ BaseJson4 makes you more easier to transform data type from JSON to Object or re
 \*support only Swift 4 and above
 
 
-1. [Why use BaseJson4 in your project?](#why use BaseJson4 in your project?)
+1. [Why use BaseJson4 in your project?](#why-use-BaseJson4-in-your-project?)
 2. [Features](#features)
 3. [Integration](#integration)
 	- [CocoaPods](#cocoaPods)
 	- [Manually](#manually)
 4. [Requirements](#requirements)
 5. [Usage](#usage)
-   - [Json to Object](#json to Object)
-   - [Object to Json](#object to Json)
-   - [Different name mapping](#different name mapping)
+   - [Json to Object](#json-to-Object)
+   - [Object to Json](#object-to-Json)
+   - [Different name mapping](#different-name-mapping)
 
 
 ## Why use BaseJson4 in your project?
@@ -123,7 +123,7 @@ class Friend: BaseJson4 {
 ```
 
 
-`String`/`Data`has been`extension`by [BaseJson4]() with method`toObj`<br>
+The `String`/`Data`has been`extension`by [BaseJson4]() with method`toObj`<br>
 
 Source of Json data types could be`String`or`Data`you can use like this code follow:
 
