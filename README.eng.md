@@ -6,16 +6,16 @@ BaseJson4 makes you more easier to transform data type from JSON to Object or re
 \*support only Swift 4 and above
 
 
-1. [Why use BaseJson4 in your project?](#why-use-BaseJson4-in-your-project?)
+1. [Why use BaseJson4 in your project?](#why-use-basejson4-in-your-project)
 2. [Features](#features)
 3. [Integration](#integration)
-	- [CocoaPods](#cocoaPods)
+	- [CocoaPods](#CocoaPods-(iOS-9+,-OS-X-10.10+))
 	- [Manually](#manually)
 4. [Requirements](#requirements)
 5. [Usage](#usage)
-   - [Json to Object](#json-to-Object)
-   - [Object to Json](#object-to-Json)
-   - [Different name mapping](#different-name-mapping)
+   - [Json to Object](#1-json-to-object)
+   - [Object to Json](#2-object-to-json)
+   - [Different name mapping](#3-different-name-mapping)
 
 
 ## Why use BaseJson4 in your project?
