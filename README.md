@@ -2,82 +2,63 @@
 
 ![CocoaPods](https://img.shields.io/cocoapods/v/BaseJson4.svg) ![Platform](https://img.shields.io/badge/platforms-iOS%209.0+%20%7C%20macOS%2010.10+-3366AA.svg)
 
-BaseJson4 makes you more easier to transform data type from JSON to Object or reverse.</br>
-\*support only Swift 4 and above
+BaseJson4 讓你輕鬆的把 Json字串 轉換到 物件模型, 同樣也能把模型轉出 Json字串<br>
+*此套件只適用 Swift 4.0 以上
 
+## 為什麼要用這個?
 
-1. [Why use BaseJson4 in your project?](#why-use-BaseJson4-in-your-project?)
-2. [Features](#features)
-3. [Integration](#integration)
-	- [CocoaPods](#cocoaPods)
-	- [Manually](#manually)
-4. [Requirements](#requirements)
-5. [Usage](#usage)
-   - [Json to Object](#json-to-Object)
-   - [Object to Json](#object-to-Json)
-   - [Different name mapping](#different-name-mapping)
+當我們呼叫一個 Service API, 後端伺服器經常是回應一個 JSON字串, 過去 Swift 3 只能轉換成字典(Dictionary)或陣列(Array), 直到現在 Swift 4 才能直接轉換成一個自訂的物件模型, 這個套件讓你輕鬆使用 Swift 4 的這項特徵.
 
-
-## Why use BaseJson4 in your project?
-
-
-We want to handle data which is JSON string getting from backend with service API, we have to use`Dictionary`or`Array`to transform or parse data in to the model, until Swift 4 `Codable` introduced.
-
-The BaseJson4 base on new protocol`Codable`could let you more easier to use`Codable`feature and more clean your own code and more importantly reduce low-level errors by hands with autocomplete.
-
-Handle the *object property* rather than handle a string *["user"]* make Xcode to check is it correct.<br>
-
-
-With [BaseJson4]() just use User Object, *User* could be Class or Struct all you have to do this:
-
-```swift
-  if let user = jsonStr.toObj(type: User.self) {
-    print("userName= \(user.name)")
-    let age = user.age
-  }
-```
-
-With [official Apple Example](https://developer.apple.com/swift/blog/?id=37) would look like this:
+原本舊的作法可能看起來像這樣:
 
 ```swift
 if let statusesArray = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [[String: Any]],
     let user = statusesArray[0]["user"] as? [String: Any],
-    let userName = user["name"] as? String {
-    print("userName= \(user.name)")
+    let username = user["name"] as? String {
+    // Finally we got the username
 }
 ```
 
- 
-With [SwiftyJSON](https://github.com/SwiftyJSON/SwiftyJSON) would look like this:
+如果你有使用 [SwiftyJSON](https://github.com/SwiftyJSON/SwiftyJSON) 看起來會像這樣:
 
 ```swift
 let json = JSON(data: dataFromNetworking)
 if let userName = json[0]["user"]["name"].string {
-    print("userName= \(user.name)")
+  //Now you got your value
 }
 ```
-see, [BaseJson4]() more clean right?
+
+但仍舊有一個缺點, 欄位名稱必須手動輸入, 例如上面範例的 ["user"] , 手打名稱可能有機會輸入錯字, 或一時忘記完整名字.
+
+那麼, 使用 BaseJson4 後看起來會像這樣:
+
+```swift
+  if let user = jsonStr.toObj(type: User.self) {
+    // 直接使用 User 物件, User 可以是一個 Class 或 Struct
+    print("user.name=\(user.name)")
+    let age = user.age
+  }
+```
+以操作物件屬性的方式來使用資料欄位, 大大減少因為手誤打錯字造成的bug<br>
 
 
-## Features
-
-- JSON String --> Object Model
-- Object Model --> JSON String
-- Different name mapping
-- Specific Date format transformer
-- Print the contents of an object
-
-## Requirements
+## 系統需求 Requirements
 
 - iOS 9.0+ | macOS 10.10+
 - Xcode 9
 - Swift 4.0
 
-## Integration
+## 功能特徵 Features
 
-#### CocoaPods (iOS 9+, OS X 10.10+)
+- JSON String --> Object Model
+- Object Model --> JSON String
+- 欄位異名對映
+- 日期指定格式轉換
+- 傾印 Object 內容
 
-You can use [CocoaPods](http://cocoapods.org/) to install`BaseJson4`by adding it to your`Podfile`:
+## 如何安裝 使用CocoaPods (iOS 9+, OS X 10.10+)
+
+你可以使用 [CocoaPods](http://cocoapods.org/) 來安裝, 把`BaseJson4`加到你的`Podfile`:
 
 ```ruby
 platform :ios, '9.0'
@@ -88,26 +69,22 @@ target 'MyApp' do
 end
 ```
 
-#### Manually
+## 如何安裝 手動Manually
 
-To use this library in your project manually you may:  
-	
-1. Download [BaseJson4.swift](https://github.com/kittymo/BaseJson4/blob/master/BaseJson4/BaseJson4.swift) file form github
-2. add the [BaseJson4.swift](https://github.com/kittymo/BaseJson4/blob/master/BaseJson4/BaseJson4.swift) file in your project
-3. no more step 2
+1. 下載本套件的 [BaseJson4.swift](https://github.com/kittymo/BaseJson4/blob/master/BaseJson4/BaseJson4.swift) 檔
+2. 把這個檔案加進你的 xcode 專案裡
+3. 安裝完成了
 
 
-## Usage
-#### 1. Json to Object
+## 如何使用 Usage
+## 1. Json to Object
 
-Here is a Json string
+我們先用一段 json字串 來示範
 ```json
-{"id":66, "birthday":"1997-05-08", "height": 180.61, "name":"kittymo", "gender":"M", "age": 29, "friends": [ {"name":"Bill", "isFriend": true}, {"name":"Allen", "isFriend": false, "test":1} ]}
+{"id":66, "birthday":"1997-05-08", "height": 180.61, "name":"小軒", "gender":"M", "age": 29, "friends": [ {"name":"小明", "isFriend": true}, {"name":"小華", "isFriend": false, "test":1} ]}
 ```
 
-First of all create the object Model, in here we using class, of course you can using struct if you want.
-
-
+首先先建立物件模型(Model), 這裡我們使用 class, 當然你也可以使用 struct
 ```swift
 class User: BaseJson4 {
     var name: String? = nil
@@ -125,21 +102,16 @@ class Friend: BaseJson4 {
 
 ```
 
-
-The `String`/`Data`has been`extension`by [BaseJson4]() with method`toObj`<br>
-
-Source of Json data types could be`String`or`Data`you can use like this code follow:
-
-
+json資料來源類型可以是 String 或 Data<br>
+BaseJson4 幫 String/Data 加上了一個擴展功能叫做 toObj<br>
+例如:
 ```swift
-let jsonStr = "{"id":66, "birthday":"1997-05-08", "height": 180.61, "name":"kittymo", "gender":"M", "age": 29, "friends": [ {"name":"Bill", "isFriend": true}, {"name":"Allen", "isFriend": false, "test":1} ]}"
+let jsonStr = "{\"id\":66, \"birthday\":\"1997-05-08\", \"height\": 180.61, \"name\":\"小軒\", \"gender\":\"M\", \"age\": 29, \"friends\": [ {\"name\":\"小明\", \"isFriend\": true}, {\"name\":\"小華\", \"isFriend\": false, \"test\":1} ]}"
 
 if let user = jsonStr.toObj(type: User.self) {
-    let desc = user.description()   // description() method can print all of properties in this object 
-    print("Object content ==> \(desc)")
-
-    // .... just use this obeject
-
+    let desc = user.description()   // description()可以傾印出此物件的所有屬性值
+    print("物件內容 ==> \(desc)")
+    // .... 已經可以直接使用物件了
     let age = user.age
     let name = user.name
     if let friends = user.friends {
@@ -149,128 +121,105 @@ if let user = jsonStr.toObj(type: User.self) {
     }
 }
 ```
+我們已經成功的把一段 Json字串 轉成了一個 物件Model, 轉換只需要一行程式碼 String.toObj<br>
 
-Just one line code, `String.toObj`, we succeed transform from a *Json string* to an *object Model* <br>
-here is output log on console follow:
-
+輸出的 log 如下:
 ```text
-Object content ==> 
+物件內容 ==> 
 <User:
- name=Optional("kittymo")
+ name=Optional("小軒")
  gender=Optional("M")
  age=29
  birthday=Optional("1997-05-08")
- friends=Array count=2 [ <Friend: name=Optional("Bill") isFriend=true>, <Friend: name=Optional("Allen") isFriend=false> ]
+ friends=Array count=2 [ <Friend: name=Optional("小明") isFriend=true>, <Friend: name=Optional("小華") isFriend=false> ]
  height=180.61
 >
 
-friend name=Optional("Bill")
-friend name=Optional("Allen")
+friend name=Optional("小明")
+friend name=Optional("小華")
 ```
 
-Is it easy, right?
-
-Remember *Json string* has a property named `birthday`, it's a birthday date, we want to it's data typs can transform `from String`  to `Data` Object.
-
-Here is show you how to do that follow:
-
-Just change two place (where comment) follow:
-
+是不是很輕鬆容易呢<br>
+json字串中有一欄叫做 birthday, 它是一個生日日期, 我們可能會希望它能直接轉成一個 Date 物件<br>
+接下來我們示範如何使用日期格式<br>
+首先把我們的 User 物件的 birthday 改成 Date 類型
 ```swift
 class User: BaseJson4 {
     var name: String? = nil
     var gender: String? = nil
     var age: Int = 0
-    var birthday: Date? = nil       // <--- change type annotation here from String to Data
+    var birthday: Date? = nil       // <--- 改成 Date類型
     var friends: [Friend]? = nil
     var height: Double = 0    
     
     static func dateFormats() -> [String: String]? {
-        return [CodingKeys.birthday.stringValue: "yyyy-MM-dd"]  // <--- define date format you want like: yyyy-MM-dd
+        return [CodingKeys.birthday.stringValue: "yyyy-MM-dd"]  // <--- 指定格式為yyyy-MM-dd
     }
 }
 ```
-
-That's it, property `birthday` is became `Date` date type! yeh!<br>
-after modify the output log on console follow
-
-
+這樣一來 birthday 就變成了一個 Date 物件了<br>
+修改後輸出的 log 如下:
 ```text
-Object content ==>  
+物件內容 ==> 
 <User:
- name=Optional("kittymo")
+ name=Optional("小軒")
  gender=Optional("M")
  age=29
  birthday=Optional(1997-05-07 16:00:00 +0000)
- friends=Array count=2 [ <Friend: name=Optional("Bill") isFriend=true>, <Friend: name=Optional("Allen") isFriend=false> ]
+ friends=Array count=2 [ <Friend: name=Optional("小明") isFriend=true>, <Friend: name=Optional("小華") isFriend=false> ]
  height=180.61
 >
 ```
 <hr>
 
+## 2. Object to Json
 
-#### 2. Object to Json
-
-How do we do transform from an `Object` to `Json string`?.
-
-Well, it's very simple, just one line code.
-
-
+再來我們要如何把一個物件輸出成 json字串呢<br>
+很容易, 同樣只要一行程式碼:
 ```swift
 let jsonStr = user.toJson()
-print("json string = \(jsonStr)")
+print("輸出的 json 字串 = \(jsonStr)")
 ```
-
-the output log on console follow:
-
+print結果如下:
 ```text
-json string = {"age":29,"gender":"M","friends":[{"name":"Bill","isFriend":true},{"name":"Allen","isFriend":false}],"name":"kittymo","birthday":"1997-05-08","height":180.61000000000001}
+輸出的 json 字串 = {"age":29,"gender":"M","friends":[{"name":"小明","isFriend":true},{"name":"小華","isFriend":false}],"name":"小軒","birthday":"1997-05-08","height":180.61000000000001}
 ```
-
-It is suitable way if for machine read with default format
-If you want to print out Json format for human read, add the argument like `user.toJson(.prettyPrinted)`
-
-
+預設是適合傳給api的緊縮格式, 如果你希望產生適合人類閱讀的json可以加上參數
 ```swift
-let jsonStr = user.toJson(.prettyPrinted)  // <--- modify by argument: prettyPrinted 
+let jsonStr = user.toJson(.prettyPrinted)  // <--- 加上 prettyPrinted 參數
 ```
-
-the output will be nice to human read, log on console follow:
-
+加上參數後的 print結果變成這樣:
 ```text
-json string = {
+輸出的 json 字串 = {
   "age" : 29,
   "gender" : "M",
   "friends" : [
     {
-      "name" : "Bill",
+      "name" : "小明",
       "isFriend" : true
     },
     {
-      "name" : "Allen",
+      "name" : "小華",
       "isFriend" : false
     }
   ],
-  "name" : "kittymo",
+  "name" : "小軒",
   "birthday" : "1997-05-08",
   "height" : 180.61000000000001
 }
 ```
 <hr>
 
-#### 3. Different name mapping
+## 3. 異名對映
 
-When we get Json string which is not Swift style, we want to modify that to be Swift style,
-you can using *different name mapping*
-here is show you how to do different name mapping way.
-
+有時候 API 回傳的 JSON 欄位名字可能不符合 Swift 的命名習慣, 這時可以使用異名對映<br>
+我們用一段簡單的 JSON 字串來示範:
 
 ```json
  {"user_id":66, "user_name":"阿媛", "valid":true, "sex":"F", "style":"村菇"}
 ```
-We want let the column`user_name`to be `name`, `user_id` to be `userId`
-
-Modify`User`object model, and add CodingKeys like follow:
+欄位 user_name 我們希望改成 name, user_id 希望改成 userId<br>
+修改 User 物件模型, 加上 CodingKeys
 
 ```swift
 class User: BaseJson4 {
@@ -280,46 +229,43 @@ class User: BaseJson4 {
     var valid: Bool = false
     var style: String? = nil
     
-    //  Reset CodingKeys to do different name mapping
-    
+    // 重設CodingKeys來進行異名對映
     enum CodingKeys : String, CodingKey {
-        case userId = "user_id"     // different name mapping
-        case name = "user_name"     // different name mapping
-        case gender = "sex"         // different name mapping
-        case valid	// same name
-        case style	// same name 
+        case userId = "user_id"     // 異名對映
+        case name = "user_name"     // 異名對映
+        case gender = "sex"         // 異名對映
+        case valid	// 同名
+        case style	// 同名
     }
 }
 ```
 
-Notice: if you have reset `CodingKeys` to do different name mapping, all of properties must be set with same name, *Do not be ignored if the column name is the same name.* 
-
+但這裡有一點要特別注意的, 一旦重設了 CodingKeys 做異名對映, 就必須每個欄位都設上去, 同名的欄位也不能省略哦!
 <p>
-
-The method Json -> Object just the same before: 
+轉換的程式碼則仍然和之前一樣, 沒有改變:
 
 ```swift
 let jsonStr = "{\"user_id\":66, \"user_name\":\"阿媛\", \"valid\":true, \"sex\":\"F\", \"style\":\"村菇\"}"
-print("input json string ==> \(jsonStr)")
+print("輸入的 json 字串 ==> \(jsonStr)")
         
-// json string --> Object
+// json字串 --> Object
 if let user = jsonStr.toObj(type: User.self) {
             
 	let desc = user.description()
-        print("Object content ==> \(desc)")
+        print("物件內容 ==> \(desc)")
 
-	// Object --> json string
+	// Object --> json字串
 	let ss = user.toJson(.prettyPrinted)
-	print("json string = \(ss)")
+	print("輸出的 json 字串 = \(ss)")
 }
 ```
 
-the output log on console follow:
+print印出的結果如下:
 
 ```text
-input json string ==> {"user_id":66, "user_name":"阿媛", "valid":true, "sex":"F", "style":"村菇"}
+輸入的 json 字串 ==> {"user_id":66, "user_name":"阿媛", "valid":true, "sex":"F", "style":"村菇"}
 
-Object content ==> 
+物件內容 ==> 
 <User:
  userId=66
  name=Optional("阿媛")
@@ -328,7 +274,7 @@ Object content ==>
  style=Optional("村菇")
 >
 
- json string = {
+輸出的 json 字串 = {
   "sex" : "F",
   "style" : "村菇",
   "user_id" : 66,
@@ -337,8 +283,7 @@ Object content ==>
 }
 ```
 
-Just rename the column name, it's perfect mapping in to the object model.
-
-
-Translated by TerryCK
+雖然欄位名稱不同了, 但仍然可以完美的對映到物件模型裡.<br>
+<br><br>
+以上歡迎幫忙翻譯成英文版 ^_^
 
