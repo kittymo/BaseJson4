@@ -21,7 +21,10 @@ BaseJson4 makes you more easier to transform data type from JSON to Object or re
 ## Why use BaseJson4 in your project?
 
 
-We want to handle data which is JSON string getting from backend with service API, we have to use`Dictionary`or`Array`to transform or parse data in to the model, until Swift 4 `Codable` introduced, the BaseJson4 base on new protocol`Codable`could let you more easier to use`Codable`feature and more clean your own code and more importantly reduce low-level errors by hands with autocomplete.
+We want to handle data which is JSON string getting from backend with service API, we have to use`Dictionary`or`Array`to transform or parse data in to the model, until Swift 4 `Codable` introduced.
+
+The BaseJson4 base on new protocol`Codable`could let you more easier to use`Codable`feature and more clean your own code and more importantly reduce low-level errors by hands with autocomplete.
+
 Handle the *object property* rather than handle a string *["user"]* make Xcode to check is it correct.<br>
 
 
@@ -193,7 +196,7 @@ after modify the output log on console follow
 
 
 ```text
-物件內容 ==> 
+Object content ==>  
 <User:
  name=Optional("kittymo")
  gender=Optional("M")
