@@ -92,10 +92,9 @@ public extension BaseJson4 {
             let f = DateFormatter()
             f.locale = .current
             f.timeZone = TimeZone.current
+            f.dateFormat = "yyyy-MM-dd HH:mm:ss"
             if let ds = Self.dateFormats(), let key = ec.codingPath.last?.stringValue, let df = ds[key] {
                 f.dateFormat = df
-            } else {
-                f.dateFormat = "yyyy-MM-dd HH:mm:ss"
             }
             let stringData = f.string(from: date)
             try container.encode(stringData)

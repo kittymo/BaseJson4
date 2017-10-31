@@ -73,7 +73,13 @@ class ViewController: UIViewController {
             for u in array {
                 print("u=\(u.description())")
             }
+            
+            let ss = array.toJson()
+            print("輸出的 json 字串 = \(ss)")
         }
+        
+    
+        
     }
 
 }
