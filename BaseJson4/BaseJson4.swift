@@ -39,17 +39,16 @@ public extension Data {
                 let f = DateFormatter()
                 f.locale = .current
                 f.timeZone = TimeZone.current
+                f.dateFormat = "yyyy-MM-dd HH:mm:ss"
                 if let ds = T.dateFormats(), let key = $0.codingPath.last?.stringValue, let df = ds[key] {
                     f.dateFormat = df
-                } else {
-                    f.dateFormat = "yyyy-MM-dd HH:mm:ss"
                 }
                 if let d = f.date(from: datestr) {
                     return d
                 }
                 return Date(timeIntervalSince1970: 0)
             }
-            return try decoder.decode(T.self, from: self)
+            return try decoder.decode(type, from: self)
         } catch {
             print("BaseJson4 toObj failed=\(error)")
             return nil
@@ -66,10 +65,9 @@ public extension Data {
                 let f = DateFormatter()
                 f.locale = .current
                 f.timeZone = TimeZone.current
+                 f.dateFormat = "yyyy-MM-dd HH:mm:ss"
                 if let ds = T.dateFormats(), let key = $0.codingPath.last?.stringValue, let df = ds[key] {
                     f.dateFormat = df
-                } else {
-                    f.dateFormat = "yyyy-MM-dd HH:mm:ss"
                 }
                 if let d = f.date(from: datestr) {
                     return d
@@ -94,10 +92,9 @@ public extension BaseJson4 {
             let f = DateFormatter()
             f.locale = .current
             f.timeZone = TimeZone.current
+            f.dateFormat = "yyyy-MM-dd HH:mm:ss"
             if let ds = Self.dateFormats(), let key = ec.codingPath.last?.stringValue, let df = ds[key] {
                 f.dateFormat = df
-            } else {
-                f.dateFormat = "yyyy-MM-dd HH:mm:ss"
             }
             let stringData = f.string(from: date)
             try container.encode(stringData)
@@ -155,3 +152,15 @@ public extension BaseJson4 {
     }
 }
 
+struct User: BaseJson4 {
+  var name: String
+}
+
+var jsonStr = "{\"name\" : \"danny\"}"
+if let user = jsonStr.toObj(type: User.self) {
+  precondition(user.name=="danny", "Should pass")
+}
+jsonStr = "[{\"name\" : \"danny\"}]"
+if let users = jsonStr.toObj(type: [User.self]) {
+  precondition(users[0].name=="danny", "Should pass")
+}
