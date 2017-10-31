@@ -48,7 +48,7 @@ public extension Data {
                 }
                 return Date(timeIntervalSince1970: 0)
             }
-            return try decoder.decode(T.self, from: self)
+            return try decoder.decode(type, from: self)
         } catch {
             print("BaseJson4 toObj failed=\(error)")
             return nil
