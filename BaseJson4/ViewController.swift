@@ -45,22 +45,34 @@ class ViewController: UIViewController {
         
         // json字串 --> Object
         if let user = jsonStr.toObj(type: User.self) {
-
-            print("user.name=\(user.name)")
-            let age = user.age
             
+            print("user.name=\(String(describing: user.name))")
             
             let desc = user.description()
             print("物件內容 ==> \(desc)")
             if let friends = user.friends {
                 for friend in friends {
-                    print("friend name=\(friend.name)")
+                    print("friend name=\(String(describing: friend.name))")
                 }
             }
             // Object --> json字串
             let ss = user.toJson(.prettyPrinted)
             print("輸出的 json 字串 = \(ss)")
             
+        }
+
+        
+        
+        // Array Object
+        print("\n============ Test Array Object")
+        
+        let jsonArrayStr = "[{\"name\":\"eee\", \"age\":44, \"height\":164, \"birthday\":\"1997-05-08\"},{\"name\":\"eee\", \"age\":3, \"height\":174, \"birthday\":\"1997-05-08\"}]"
+        
+        if let array = jsonArrayStr.toObj(type: [User.self]) {
+            print("array=\(String(describing: array))")
+            for u in array {
+                print("u=\(u.description())")
+            }
         }
     }
 

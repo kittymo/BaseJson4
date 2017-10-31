@@ -20,6 +20,12 @@ public extension String {
         }
         return nil
     }
+    func toObj<T: BaseJson4>(type: [T.Type]) -> [T]? {
+        if let data = self.data(using: .utf8) {
+            return data.toObj(type: type)
+        }
+        return nil
+    }
 }
 
 public extension Data {
@@ -44,6 +50,33 @@ public extension Data {
                 return Date(timeIntervalSince1970: 0)
             }
             return try decoder.decode(T.self, from: self)
+        } catch {
+            print("BaseJson4 toObj failed=\(error)")
+            return nil
+        }
+    }
+
+    func toObj<T: BaseJson4>(type: [T.Type]) -> [T]? {
+        do {
+            let decoder = JSONDecoder()
+            decoder.nonConformingFloatDecodingStrategy = .convertFromString(positiveInfinity: "INF", negativeInfinity: "-INF", nan: "NaN")
+            decoder.dateDecodingStrategy = .custom {
+                let container = try $0.singleValueContainer()
+                let datestr = try container.decode(String.self)
+                let f = DateFormatter()
+                f.locale = .current
+                f.timeZone = TimeZone.current
+                if let ds = T.dateFormats(), let key = $0.codingPath.last?.stringValue, let df = ds[key] {
+                    f.dateFormat = df
+                } else {
+                    f.dateFormat = "yyyy-MM-dd HH:mm:ss"
+                }
+                if let d = f.date(from: datestr) {
+                    return d
+                }
+                return Date(timeIntervalSince1970: 0)
+            }
+            return try decoder.decode([T].self, from: self)
         } catch {
             print("BaseJson4 toObj failed=\(error)")
             return nil
