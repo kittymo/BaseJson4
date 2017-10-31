@@ -39,10 +39,9 @@ public extension Data {
                 let f = DateFormatter()
                 f.locale = .current
                 f.timeZone = TimeZone.current
+                f.dateFormat = "yyyy-MM-dd HH:mm:ss"
                 if let ds = T.dateFormats(), let key = $0.codingPath.last?.stringValue, let df = ds[key] {
                     f.dateFormat = df
-                } else {
-                    f.dateFormat = "yyyy-MM-dd HH:mm:ss"
                 }
                 if let d = f.date(from: datestr) {
                     return d
