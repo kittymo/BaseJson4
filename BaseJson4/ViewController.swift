@@ -36,6 +36,10 @@ class User: BaseJson4 {
     */
 }
 
+struct UserTest: BaseJson4 {
+    var name: String
+}
+
 class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -74,6 +78,16 @@ class ViewController: UIViewController {
                 print("u=\(u.description())")
             }
         }
+
+        var jsonStrTest = "{\"name\" : \"danny\"}"
+        if let user = jsonStrTest.toObj(type: UserTest.self) {
+            precondition(user.name=="danny", "Should pass")
+        }
+        jsonStrTest = "[{\"name\" : \"danny\"}]"
+        if let users = jsonStrTest.toObj(type: [UserTest.self]) {
+            precondition(users[0].name=="danny", "Should pass")
+        }
+
     }
 
 }

@@ -151,16 +151,3 @@ public extension BaseJson4 {
         return out
     }
 }
-
-struct User: BaseJson4 {
-  var name: String
-}
-
-var jsonStr = "{\"name\" : \"danny\"}"
-if let user = jsonStr.toObj(type: User.self) {
-  precondition(user.name=="danny", "Should pass")
-}
-jsonStr = "[{\"name\" : \"danny\"}]"
-if let users = jsonStr.toObj(type: [User.self]) {
-  precondition(users[0].name=="danny", "Should pass")
-}
