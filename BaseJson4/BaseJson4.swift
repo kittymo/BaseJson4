@@ -105,6 +105,29 @@ public extension BaseJson4 {
     }
 }
 
+public extension Array where Element : BaseJson4 {
+    func toJson(_ outputFormatter: JSONEncoder.OutputFormatting = []) -> String {
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = outputFormatter
+        encoder.nonConformingFloatEncodingStrategy =  .convertToString(positiveInfinity: "INF", negativeInfinity: "-INF", nan: "NaN")
+        encoder.dateEncodingStrategy = .custom { (date, ec) in
+            var container = ec.singleValueContainer()
+            let f = DateFormatter()
+            f.locale = .current
+            f.timeZone = TimeZone.current
+            if let ds = Element.dateFormats(), let key = ec.codingPath.last?.stringValue, let df = ds[key] {
+                f.dateFormat = df
+            } else {
+                f.dateFormat = "yyyy-MM-dd HH:mm:ss"
+            }
+            let stringData = f.string(from: date)
+            try container.encode(stringData)
+        }
+        let data = try! encoder.encode(self)
+        return String(data: data, encoding: .utf8)!
+    }
+}
+
 public extension BaseJson4 {
     static func dateFormats() -> [String: String]? {
         return nil
