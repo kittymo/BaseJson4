@@ -39,17 +39,16 @@ public extension Data {
                 let f = DateFormatter()
                 f.locale = .current
                 f.timeZone = TimeZone.current
+                f.dateFormat = "yyyy-MM-dd HH:mm:ss"
                 if let ds = T.dateFormats(), let key = $0.codingPath.last?.stringValue, let df = ds[key] {
                     f.dateFormat = df
-                } else {
-                    f.dateFormat = "yyyy-MM-dd HH:mm:ss"
                 }
                 if let d = f.date(from: datestr) {
                     return d
                 }
                 return Date(timeIntervalSince1970: 0)
             }
-            return try decoder.decode(T.self, from: self)
+            return try decoder.decode(type, from: self)
         } catch {
             print("BaseJson4 toObj failed=\(error)")
             return nil
@@ -66,10 +65,9 @@ public extension Data {
                 let f = DateFormatter()
                 f.locale = .current
                 f.timeZone = TimeZone.current
+                f.dateFormat = "yyyy-MM-dd HH:mm:ss"
                 if let ds = T.dateFormats(), let key = $0.codingPath.last?.stringValue, let df = ds[key] {
                     f.dateFormat = df
-                } else {
-                    f.dateFormat = "yyyy-MM-dd HH:mm:ss"
                 }
                 if let d = f.date(from: datestr) {
                     return d
