@@ -68,7 +68,7 @@ class ViewController: UIViewController {
         
         let jsonArrayStr = "[{\"name\":\"eee\", \"age\":44, \"height\":164, \"birthday\":\"1997-05-08\"},{\"name\":\"eee\", \"age\":3, \"height\":174, \"birthday\":\"1997-05-08\"}]"
         
-        if let array = jsonArrayStr.toObj(type: [User.self]) {
+        if let array = jsonArrayStr.toObj(type: [User].self) {
             print("array=\(String(describing: array))")
             for u in array {
                 print("u=\(u.description())")

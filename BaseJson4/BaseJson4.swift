@@ -20,7 +20,7 @@ public extension String {
         }
         return nil
     }
-    func toObj<T: BaseJson4>(type: [T.Type]) -> [T]? {
+    func toObj<T: BaseJson4>(type: [T].Type) -> [T]? {
         if let data = self.data(using: .utf8) {
             return data.toObj(type: type)
         }
@@ -55,7 +55,7 @@ public extension Data {
         }
     }
 
-    func toObj<T: BaseJson4>(type: [T.Type]) -> [T]? {
+    func toObj<T: BaseJson4>(type: [T].Type) -> [T]? {
         do {
             let decoder = JSONDecoder()
             decoder.nonConformingFloatDecodingStrategy = .convertFromString(positiveInfinity: "INF", negativeInfinity: "-INF", nan: "NaN")
@@ -74,7 +74,7 @@ public extension Data {
                 }
                 return Date(timeIntervalSince1970: 0)
             }
-            return try decoder.decode([T].self, from: self)
+            return try decoder.decode(type, from: self)
         } catch {
             print("BaseJson4 toObj failed=\(error)")
             return nil
@@ -115,10 +115,9 @@ public extension Array where Element : BaseJson4 {
             let f = DateFormatter()
             f.locale = .current
             f.timeZone = TimeZone.current
+            f.dateFormat = "yyyy-MM-dd HH:mm:ss"
             if let ds = Element.dateFormats(), let key = ec.codingPath.last?.stringValue, let df = ds[key] {
                 f.dateFormat = df
-            } else {
-                f.dateFormat = "yyyy-MM-dd HH:mm:ss"
             }
             let stringData = f.string(from: date)
             try container.encode(stringData)
