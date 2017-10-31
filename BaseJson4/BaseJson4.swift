@@ -65,7 +65,7 @@ public extension Data {
                 let f = DateFormatter()
                 f.locale = .current
                 f.timeZone = TimeZone.current
-                f.dateFormat = "yyyy-MM-dd HH:mm:ss"
+                 f.dateFormat = "yyyy-MM-dd HH:mm:ss"
                 if let ds = T.dateFormats(), let key = $0.codingPath.last?.stringValue, let df = ds[key] {
                     f.dateFormat = df
                 }
@@ -92,10 +92,9 @@ public extension BaseJson4 {
             let f = DateFormatter()
             f.locale = .current
             f.timeZone = TimeZone.current
+            f.dateFormat = "yyyy-MM-dd HH:mm:ss"
             if let ds = Self.dateFormats(), let key = ec.codingPath.last?.stringValue, let df = ds[key] {
                 f.dateFormat = df
-            } else {
-                f.dateFormat = "yyyy-MM-dd HH:mm:ss"
             }
             let stringData = f.string(from: date)
             try container.encode(stringData)
@@ -160,4 +159,4 @@ struct User: BaseJson4 {
 let jsonStr = "{\"name\" : \"danny\"}"
 if let user = jsonStr.toObj(type: User.self) {
   precondition(user.name=="danny", "Should pass")
-}
+} 
