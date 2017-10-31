@@ -2,8 +2,11 @@
 
 ![CocoaPods](https://img.shields.io/cocoapods/v/BaseJson4.svg) ![Platform](https://img.shields.io/badge/platforms-iOS%209.0+%20%7C%20macOS%2010.10+-3366AA.svg)
 
+## [English](/README.eng.md)<br>
+
 BaseJson4 讓你輕鬆的把 Json字串 轉換到 物件模型, 同樣也能把模型轉出 Json字串<br>
 *此套件只適用 Swift 4.0 以上
+
 
 ## 為什麼要用這個?
 
@@ -285,5 +288,5 @@ print印出的結果如下:
 
 雖然欄位名稱不同了, 但仍然可以完美的對映到物件模型裡.<br>
 <br><br>
-以上歡迎幫忙翻譯成英文版 ^_^
+
 
