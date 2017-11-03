@@ -102,6 +102,21 @@ public extension BaseJson4 {
         let data = try! encoder.encode(self)
         return String(data: data, encoding: .utf8)!
     }
+    
+    // convert Object to Dictionary
+    func toDictionary() -> Dictionary<String, Any> {
+        print("toDictionary()")
+        let mirror: Mirror = Mirror(reflecting: self)
+        var dict = Dictionary<String, Any>()
+        for p in mirror.children {
+            print("label=\(String(describing: p.label))")
+            if let label = p.label {
+                dict[label] = p.value
+            }
+        }
+        return dict
+    }
+
 }
 
 public extension Array where Element : BaseJson4 {
@@ -172,5 +187,6 @@ public extension BaseJson4 {
         }
         return out
     }
+    
 }
 

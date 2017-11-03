@@ -59,6 +59,9 @@ class ViewController: UIViewController {
             let ss = user.toJson(.prettyPrinted)
             print("輸出的 json 字串 = \(ss)")
             
+            
+            let dict = user.toDictionary()
+            print("dict = \(dict)")
         }
 
         
