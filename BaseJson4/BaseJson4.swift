@@ -31,58 +31,53 @@ public extension String {
 public extension Data {
     func toObj<T: BaseJson4>(type: T.Type) -> T? {
         do {
-            let decoder = JSONDecoder()
-            decoder.nonConformingFloatDecodingStrategy = .convertFromString(positiveInfinity: "INF", negativeInfinity: "-INF", nan: "NaN")
-            decoder.dateDecodingStrategy = .custom {
-                let container = try $0.singleValueContainer()
-                let datestr = try container.decode(String.self)
-                let f = DateFormatter()
-                f.locale = .current
-                f.timeZone = TimeZone.current
-                f.dateFormat = "yyyy-MM-dd HH:mm:ss"
-                if let ds = T.dateFormats(), let key = $0.codingPath.last?.stringValue, let df = ds[key] {
-                    f.dateFormat = df
-                }
-                if let d = f.date(from: datestr) {
-                    return d
-                }
-                return Date(timeIntervalSince1970: 0)
-            }
+            let decoder = createDecoder(T.self)
             return try decoder.decode(type, from: self)
         } catch {
             print("BaseJson4 toObj failed=\(error)")
             return nil
         }
     }
-
+    
     func toObj<T: BaseJson4>(type: [T].Type) -> [T]? {
         do {
-            let decoder = JSONDecoder()
-            decoder.nonConformingFloatDecodingStrategy = .convertFromString(positiveInfinity: "INF", negativeInfinity: "-INF", nan: "NaN")
-            decoder.dateDecodingStrategy = .custom {
-                let container = try $0.singleValueContainer()
-                let datestr = try container.decode(String.self)
-                let f = DateFormatter()
-                f.locale = .current
-                f.timeZone = TimeZone.current
-                f.dateFormat = "yyyy-MM-dd HH:mm:ss"
-                if let ds = T.dateFormats(), let key = $0.codingPath.last?.stringValue, let df = ds[key] {
-                    f.dateFormat = df
-                }
-                if let d = f.date(from: datestr) {
-                    return d
-                }
-                return Date(timeIntervalSince1970: 0)
-            }
+            let decoder = createDecoder(T.self)
             return try decoder.decode(type, from: self)
         } catch {
             print("BaseJson4 toObj failed=\(error)")
             return nil
         }
+    }
+    
+    private func createDecoder<T: BaseJson4>(_ type: T.Type) -> JSONDecoder {
+        let decoder = JSONDecoder()
+        decoder.nonConformingFloatDecodingStrategy = .convertFromString(positiveInfinity: "INF", negativeInfinity: "-INF", nan: "NaN")
+        decoder.dateDecodingStrategy = .custom {
+            let container = try $0.singleValueContainer()
+            let datestr = try container.decode(String.self)
+            let f = DateFormatter()
+            f.locale = .current
+            f.timeZone = TimeZone.current
+            f.dateFormat = "yyyy-MM-dd HH:mm:ss"
+            if let ds = T.dateFormats(), let key = $0.codingPath.last?.stringValue, let df = ds[key] {
+                f.dateFormat = df
+            }
+            if let d = f.date(from: datestr) {
+                return d
+            }
+            return Date(timeIntervalSince1970: 0)
+        }
+        return decoder
     }
 }
 
 public extension BaseJson4 {
+    
+    init?(json: String) {
+        guard let s = json.toObj(type: Self.self) else { return nil }
+        self = s
+    }
+    
     func toJson(_ outputFormatter: JSONEncoder.OutputFormatting = []) -> String {
         let encoder = JSONEncoder()
         encoder.outputFormatting = outputFormatter
@@ -105,18 +100,16 @@ public extension BaseJson4 {
     
     // convert Object to Dictionary
     func toDictionary() -> Dictionary<String, Any> {
-        print("toDictionary()")
         let mirror: Mirror = Mirror(reflecting: self)
         var dict = Dictionary<String, Any>()
         for p in mirror.children {
-            print("label=\(String(describing: p.label))")
             if let label = p.label {
                 dict[label] = p.value
             }
         }
         return dict
     }
-
+    
 }
 
 public extension Array where Element : BaseJson4 {
@@ -139,6 +132,14 @@ public extension Array where Element : BaseJson4 {
         let data = try! encoder.encode(self)
         return String(data: data, encoding: .utf8)!
     }
+    
+    func description(_ newLine: Bool = true) -> String {
+        return """
+        Array<\(Element.self)> [
+            \(map{$0.description(newLine)}.joined())
+        ]\n
+        """
+    }
 }
 
 public extension BaseJson4 {
@@ -148,7 +149,7 @@ public extension BaseJson4 {
     static func userInfo() -> [CodingUserInfoKey: Any]? {
         return nil
     }
-
+    
     // 印出物件內全部屬性
     func description(_ newLine: Bool = true) -> String {
         let mirror: Mirror = Mirror(reflecting: self)

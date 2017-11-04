@@ -41,20 +41,26 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         let jsonStr = "{\"id\":66, \"birthday\":\"1997-05-08\", \"height\": 180.61, \"name\":\"小軒\", \"gender\":\"M\", \"age\": 29, \"friends\": [ {\"name\":\"小明\", \"isFriend\": true}, {\"name\":\"小華\", \"isFriend\": false, \"test\":1} ]}"
-        print("輸入的 json 字串 ==> \(jsonStr)")
+        print("Source JSON String ==> \(jsonStr)")
         
-        // json字串 --> Object
-        if let user = jsonStr.toObj(type: User.self) {
-            
-            print("user.name=\(String(describing: user.name))")
-            
+        // JSON String --> Object Model (Method 1)
+        if let user = User(json: jsonStr) {
             let desc = user.description()
-            print("物件內容 ==> \(desc)")
+            print("(Method 1) Object ==> \(desc)")
+        }
+        
+        // JSON String --> Object Model (Method 2)
+        if let user = jsonStr.toObj(type: User.self) {
+            let desc = user.description()
+            print("(Method 2) Object ==> \(desc)")
+            
             if let friends = user.friends {
                 for friend in friends {
                     print("friend name=\(String(describing: friend.name))")
                 }
             }
+            
+            
             // Object --> json字串
             let ss = user.toJson(.prettyPrinted)
             print("輸出的 json 字串 = \(ss)")
@@ -64,7 +70,6 @@ class ViewController: UIViewController {
             print("dict = \(dict)")
         }
 
-        
         
         // Array Object
         print("\n============ Test Array Object")
@@ -77,11 +82,13 @@ class ViewController: UIViewController {
                 print("u=\(u.description())")
             }
             
+            print("array description=\(array.description())")
+            
             let ss = array.toJson()
             print("輸出的 json 字串 = \(ss)")
         }
         
-    
+
         
     }
 
