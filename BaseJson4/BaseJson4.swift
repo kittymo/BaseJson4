@@ -9,7 +9,7 @@
 
 import Foundation
 
-public protocol BaseJson4: Codable, CustomStringConvertible {
+public protocol BaseJson4: Codable {
     static func dateFormats() -> [String: String]?
 }
 
@@ -100,6 +100,8 @@ public extension BaseJson4 {
         self = s
     }
 
+    
+    
     func toJson(_ outputFormatter: JSONEncoder.OutputFormatting = []) -> String {
         let encoder = JSONEncoder()
         encoder.outputFormatting = outputFormatter
@@ -121,7 +123,19 @@ public extension BaseJson4 {
     }
     
     var dictionary: Dictionary<String, Any> {
-        return self.toDictionary()
+        let str = self.toJson()
+        if let data = str.data(using: .utf8) {
+            do {
+                return try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
+        return [:]
+    }
+    
+    var dictionaryNoCodingKeys: Dictionary<String, Any> {
+        return toDictionary()
     }
     
     var jsonString: String {

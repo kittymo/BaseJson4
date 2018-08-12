@@ -36,23 +36,24 @@ class User: BaseJson4 {
     */
 }
 
-class TestModel: BaseJson4 {
-    var name: String? = nil
-    var 年齡: Int = 0
-    var 什麼鬼: String? = nil
-    enum CodingKeys : String, CodingKey {
-        case name = "中文名字"
-        case 年齡
-        case 什麼鬼 = "%#abc"
-    }
-}
-
 
 class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+  
         
+        class TestModel: BaseJson4 {
+            var name: String? = nil
+            var 年齡: Int = 0
+            var 什麼鬼: String? = nil
+            enum CodingKeys : String, CodingKey {
+                case name = "中文名字"
+                case 年齡
+                case 什麼鬼 = "%#abc"
+            }
+        }
+
         // ------------------------------
         // SAMPLE 1
         // JSON String --> Object Model
@@ -60,10 +61,10 @@ class ViewController: UIViewController {
         if let test = TestModel(json: str) {
             print(test)
             
-            // ------------------------------
             // Object Model --> JSON String
-            let jsonstr = test.toJson()
-            print(jsonstr)
+            print(test.jsonString)      // OUTPUT: {"年齡":18,"%#abc":"什麼怪名字","中文名字":"阿媛"}
+            // Object Model --> Dictionary
+            print(test.dictionary)      // OUTPUT: ["%#abc": 什麼怪名字, "中文名字": 阿媛, "年齡": 18]
         }
         
         // ------------------------------
@@ -73,11 +74,12 @@ class ViewController: UIViewController {
         if let test = TestModel(dict: dict) {
             print(test)
             
-            // ------------------------------
+            // Object Model --> JSON String
+            print(test.jsonString)      // OUTPUT: {"年齡":18,"%#abc":"什麼怪名字","中文名字":"阿媛"}
             // Object Model --> Dictionary
-            let d = test.toDictionary()
-            print(d)
+            print(test.dictionary)      // OUTPUT: ["%#abc": 什麼怪名字, "中文名字": 阿媛, "年齡": 18]
         }
+        
         
         
         
