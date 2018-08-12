@@ -62,9 +62,11 @@ class ViewController: UIViewController {
             print(test)
             
             // Object Model --> JSON String
-            print(test.jsonString)      // OUTPUT: {"年齡":18,"%#abc":"什麼怪名字","中文名字":"阿媛"}
+            print(test.jsonString)              // OUTPUT: {"年齡":18,"%#abc":"什麼怪名字","中文名字":"阿媛"}
             // Object Model --> Dictionary
-            print(test.dictionary)      // OUTPUT: ["%#abc": 什麼怪名字, "中文名字": 阿媛, "年齡": 18]
+            print(test.dictionary)              // OUTPUT: ["%#abc": 什麼怪名字, "中文名字": 阿媛, "年齡": 18]
+            // Object Model --> Dictionary
+            print(test.dictionaryNoCodingKeys)  // OUTPUT: ["name": Optional("阿媛"), "年齡": 18, "什麼鬼": Optional("什麼怪名字")]
         }
         
         // ------------------------------
@@ -75,9 +77,11 @@ class ViewController: UIViewController {
             print(test)
             
             // Object Model --> JSON String
-            print(test.jsonString)      // OUTPUT: {"年齡":18,"%#abc":"什麼怪名字","中文名字":"阿媛"}
+            print(test.jsonString)              // OUTPUT: {"年齡":18,"%#abc":"什麼怪名字","中文名字":"阿媛"}
             // Object Model --> Dictionary
-            print(test.dictionary)      // OUTPUT: ["%#abc": 什麼怪名字, "中文名字": 阿媛, "年齡": 18]
+            print(test.dictionary)              // OUTPUT: ["%#abc": 什麼怪名字, "中文名字": 阿媛, "年齡": 18]
+            // Object Model --> Dictionary
+            print(test.dictionaryNoCodingKeys)  // OUTPUT: ["name": Optional("阿媛"), "年齡": 18, "什麼鬼": Optional("什麼怪名字")]
         }
         
         

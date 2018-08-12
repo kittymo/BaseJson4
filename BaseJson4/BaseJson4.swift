@@ -9,7 +9,7 @@
 
 import Foundation
 
-public protocol BaseJson4: Codable {
+public protocol BaseJson4: Codable, CustomStringConvertible {
     static func dateFormats() -> [String: String]?
 }
 
@@ -100,8 +100,6 @@ public extension BaseJson4 {
         self = s
     }
 
-    
-    
     func toJson(_ outputFormatter: JSONEncoder.OutputFormatting = []) -> String {
         let encoder = JSONEncoder()
         encoder.outputFormatting = outputFormatter
@@ -152,6 +150,11 @@ public extension BaseJson4 {
         var dict = Dictionary<String, Any>()
         for p in mirror.children {
             if let label = p.label {
+                if "\(p.value)" == "nil" {
+                    guard let s = p.value as? String, s == "nil" else {
+                        continue
+                    }
+                }
                 dict[label] = p.value
             }
         }
