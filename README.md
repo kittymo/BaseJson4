@@ -55,6 +55,8 @@ if let userName = json[0]["user"]["name"].string {
 
 - JSON String --> Object Model
 - Object Model --> JSON String
+- Dictionary --> Object Model
+- Object Model --> Dictionary
 - 欄位異名對映
 - 日期指定格式轉換
 - 傾印 Object 內容
