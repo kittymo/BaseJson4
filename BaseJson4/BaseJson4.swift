@@ -2,16 +2,16 @@
 //  BaseJson4.swift
 //  BaseJson4
 //
-//  Created by KittyMei on 2017/9/23.
+//  Created by KittyMo on 2017/9/23.
+//  Updated by KittyMo on 2018/8/12.
 //  Copyright © 2017年 Hello Kitty. All rights reserved.
 //
 
 import Foundation
 
-public protocol BaseJson4: Codable {
+public protocol BaseJson4: Codable, CustomStringConvertible {
     static func dateFormats() -> [String: String]?
 }
-
 
 public extension String {
     func toObj<T: BaseJson4>(type: T.Type) -> T? {
@@ -71,6 +71,18 @@ public extension Data {
     }
 }
 
+public extension Dictionary {
+    func toObj<T: BaseJson4>(type: T.Type) -> T? {
+        do {
+            let jsonData = try JSONSerialization.data(withJSONObject: self, options: [])
+            return jsonData.toObj(type: type)
+        } catch {
+            print("============\nBaseJson4 Dictionary.toObj failed=\(error)\n============\n")
+            return nil
+        }
+    }
+}
+
 public extension BaseJson4 {
     
     init?(json: String) {
@@ -78,6 +90,16 @@ public extension BaseJson4 {
         self = s
     }
     
+    init?(jsonData: Data) {
+        guard let s = jsonData.toObj(type: Self.self) else { return nil }
+        self = s
+    }
+
+    init?(dict: Dictionary<String, Any>) {
+        guard let s = dict.toObj(type: Self.self) else { return nil }
+        self = s
+    }
+
     func toJson(_ outputFormatter: JSONEncoder.OutputFormatting = []) -> String {
         let encoder = JSONEncoder()
         encoder.outputFormatting = outputFormatter
@@ -98,6 +120,18 @@ public extension BaseJson4 {
         return String(data: data, encoding: .utf8)!
     }
     
+    var dictionary: Dictionary<String, Any> {
+        return self.toDictionary()
+    }
+    
+    var jsonString: String {
+        return self.toJson()
+    }
+    
+    var jsonData: Data? {
+        return self.toJson().data(using: .utf8)
+    }
+    
     // convert Object to Dictionary
     func toDictionary() -> Dictionary<String, Any> {
         let mirror: Mirror = Mirror(reflecting: self)
@@ -110,6 +144,9 @@ public extension BaseJson4 {
         return dict
     }
     
+    var description: String {
+        return self.description()
+    }
 }
 
 public extension Array where Element : BaseJson4 {

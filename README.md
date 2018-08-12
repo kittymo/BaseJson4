@@ -105,8 +105,8 @@ class Friend: BaseJson4 {
 
 ```
 
-json資料來源類型可以是 String 或 Data<br>
-BaseJson4 幫 String/Data 加上了一個擴展功能叫做 toObj<br>
+json資料來源類型可以是 String 或 Data 或 Dictionary<br>
+BaseJson4 幫 String/Data/Dictionary 加上了一個擴展功能叫做 toObj<br>
 例如:
 ```swift
 let jsonStr = "{\"id\":66, \"birthday\":\"1997-05-08\", \"height\": 180.61, \"name\":\"小軒\", \"gender\":\"M\", \"age\": 29, \"friends\": [ {\"name\":\"小明\", \"isFriend\": true}, {\"name\":\"小華\", \"isFriend\": false, \"test\":1} ]}"
